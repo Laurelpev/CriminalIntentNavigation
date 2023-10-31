@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import com.pevahouse.criminalintent.databinding.CrimeFragmentDetailBinding
 import java.util.*
 
-class CrimeDetailFragment : Fragment() {
+class CrimeFragmentDetail : Fragment() {
 
-    private lateinit var binding: CrimeFragmentDetailBinding
-    private lateinit var crime: Crime
+//    private lateinit var binding: CrimeFragmentDetailBinding
+    private var _binding: CrimeFragmentDetailBinding? = null
+    val binding get() = checkNotNull(_binding) {"Cannot access binding because it is null. Is the view Visible?"}
+    lateinit var crime: Crime
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +30,7 @@ class CrimeDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = CrimeFragmentDetailBinding.inflate(inflater, container, false)
+        _binding = CrimeFragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,6 +49,10 @@ class CrimeDetailFragment : Fragment() {
             crimeSolved.setOnCheckedChangeListener{ _, isChecked -> crime = crime.copy(isSolved = isChecked)
             }
         }
+    }
+    override fun onDestroyView(){
+        super.onDestroyView()
+        _binding = null
     }
 
 
