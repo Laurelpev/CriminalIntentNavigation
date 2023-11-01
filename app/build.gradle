@@ -58,5 +58,7 @@ dependencies {
     debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
     //THIS SOLVED THE LISTENABLEFUTURE DUPLICATION
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
 }
