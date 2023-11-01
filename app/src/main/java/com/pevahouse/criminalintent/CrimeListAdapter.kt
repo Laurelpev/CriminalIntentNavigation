@@ -1,5 +1,6 @@
 package com.pevahouse.criminalintent
 
+import android.text.format.DateFormat.getDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,18 @@ import com.pevahouse.criminalintent.databinding.CrimeFragmentDetailBinding.bind
 import com.pevahouse.criminalintent.databinding.ListItemCrimeBinding
 import com.pevahouse.criminalintent.databinding.ListItemCrimePoliceBinding
 import kotlinx.coroutines.NonDisposableHandle.parent
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class CrimeHolder(
     private val binding: ListItemCrimeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime){
         binding.crimeTitle.text = crime.title
-        binding.crimeDate.text = crime.date.toString()
+        val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(crime.date)
+        binding.crimeDate.text = formattedDate
 
         binding.root.setOnClickListener{
             Toast.makeText(binding.root.context,
@@ -36,8 +42,10 @@ class CrimeHolderPolice(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(crime: Crime){
         binding.crimeTitle.text = crime.title
-        binding.crimeDate.text = crime.date.toString()
-        binding.crimePolice.text = crime.needPolice.toString()
+
+        val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(crime.date)
+        binding.crimeDate.text = formattedDate
+
 
         binding.root.setOnClickListener{
             Toast.makeText(binding.root.context,
