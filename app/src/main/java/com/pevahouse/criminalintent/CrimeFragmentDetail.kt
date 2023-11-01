@@ -22,7 +22,8 @@ class CrimeFragmentDetail : Fragment() {
             id = UUID.randomUUID(),
             title = "",
             date = Date(),
-            isSolved = false
+            isSolved = false,
+            needPolice = false
         )
     }
     override fun onCreateView(
