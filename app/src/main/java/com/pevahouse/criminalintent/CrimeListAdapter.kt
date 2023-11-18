@@ -60,8 +60,6 @@ class CrimeListAdapter(private val crimes: List<Crime>): RecyclerView.Adapter<Re
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(parent.context)
-//        val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
-//        return CrimeHolder(binding)
         return when (viewType) {
             1 -> {
                 val binding = ListItemCrimePoliceBinding.inflate(inflater, parent, false)
