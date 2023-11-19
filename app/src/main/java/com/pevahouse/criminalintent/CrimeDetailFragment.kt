@@ -1,21 +1,21 @@
 package com.pevahouse.criminalintent
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.pevahouse.criminalintent.databinding.CrimeFragmentDetailBinding
 import kotlinx.coroutines.launch
-import java.util.Date
-import java.util.UUID
 
 private const val TAG = "CrimeFragmentDetail"
 class CrimeFragmentDetail : Fragment() {
@@ -48,7 +48,10 @@ class CrimeFragmentDetail : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = CrimeFragmentDetailBinding.inflate(inflater, container, false)
-        return binding.root
+    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+
+    return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,6 +87,7 @@ class CrimeFragmentDetail : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        callback.remove()
     }
 
     private fun updateUi(crime: Crime) {
@@ -93,6 +97,17 @@ class CrimeFragmentDetail : Fragment() {
             }
             crimeDate.text = crime.date.toString()
             crimeSolved.isChecked = crime.isSolved
+        }
+    }
+
+    val callback = object : OnBackPressedCallback(true) {
+
+        override fun handleOnBackPressed() {
+            if (crimeDetailViewModel.crime.value?.title.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please provide a description of the crime", Toast.LENGTH_SHORT).show()
+            } else {
+                findNavController().popBackStack()
+            }
         }
     }
 }

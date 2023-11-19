@@ -8,19 +8,20 @@
     <fragment
         android:id="@+id/crimeListFragment"
         android:name="com.pevahouse.criminalintent.CrimeListFragment"
-        android:label="CrimeListFragment"
+        android:label="crimeListFragment"
         tools:layout="@layout/fragment_crime_list">
         <action
             android:id="@+id/show_crime_detail"
-            app:destination="@id/crimeDetailFragment" />
+            app:destination="@id/crimeFragmentDetail" />
     </fragment>
     <fragment
-        android:id="@+id/crimeDetailFragment"
+        android:id="@+id/crimeFragmentDetail"
         android:name="com.pevahouse.criminalintent.CrimeFragmentDetail"
-        android:label="CrimeDetailFragment"
+        android:label="crimeDetailFragment"
         tools:layout="@layout/fragment_crime_detail">
         <argument
             android:name="crimeId"
             app:argType="java.util.UUID" />
     </fragment>
 </navigation>
+
