@@ -7,8 +7,8 @@ import androidx.room.TypeConverters
 import com.pevahouse.criminalintent.Crime
 
 
-@Database(entities = [Crime ::class], version=1 )
+@Database(entities = [Crime::class], version = 1)
 @TypeConverters(CrimeTypeConverters::class)
 abstract class CrimeDatabase : RoomDatabase() {
-    abstract fun  crimeDao(): CrimeDao
+    abstract fun crimeDao(): CrimeDao
 }
