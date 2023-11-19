@@ -1,8 +1,6 @@
 package com.pevahouse.criminalintent
 
 import android.os.Bundle
-import android.text.Layout
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pevahouse.criminalintent.databinding.FragmentCrimeListBinding
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -68,7 +67,11 @@ class CrimeListFragment : Fragment(){
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 crimeListViewModel.crimes.collect { crimes ->
                     binding.crimeRecyclerView.adapter =
-                        CrimeListAdapter(crimes)
+                        CrimeListAdapter(crimes) { crimeId ->
+                            findNavController().navigate(
+                                CrimeListFragmentDirections.showCrimeDetail(crimeId)
+                            )
+                        }
                 }
             }
         }

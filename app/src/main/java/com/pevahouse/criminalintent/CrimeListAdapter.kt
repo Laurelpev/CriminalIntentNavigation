@@ -19,16 +19,16 @@ import java.util.*
 class CrimeHolder(
     private val binding: ListItemCrimeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(crime: Crime){
+    fun bind(crime: Crime, onCrimeClicked: (crimeId: UUID) -> Unit) {
         binding.crimeTitle.text = crime.title
         val formattedDate = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(crime.date)
         binding.crimeDate.text = formattedDate
 
-        binding.root.setOnClickListener{
-            Toast.makeText(binding.root.context,
-                "${crime.title} clicked!",
-                Toast.LENGTH_SHORT).show()
+
+        binding.root.setOnClickListener {
+            onCrimeClicked(crime.id)
         }
+
         binding.crimeSolved.visibility = if (crime.isSolved) {
             View.VISIBLE
         } else {
@@ -36,6 +36,7 @@ class CrimeHolder(
         }
     }
 }
+
 
 class CrimeHolderPolice(
     private val binding: ListItemCrimePoliceBinding
@@ -55,13 +56,13 @@ class CrimeHolderPolice(
     }
 }
 
+
 class CrimeListAdapter(
-    private val crimes: List<Crime>
-) : RecyclerView.Adapter<CrimeHolder>() {
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): CrimeHolder {
+    private val crimes: List<Crime>,
+    private val onCrimeClicked: (crimeId: UUID) -> Unit ) : RecyclerView.Adapter<CrimeHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
+
         val inflater = LayoutInflater.from(parent.context)
         val binding = ListItemCrimeBinding.inflate(inflater, parent, false)
         return CrimeHolder(binding)
@@ -69,11 +70,10 @@ class CrimeListAdapter(
 
     override fun onBindViewHolder(holder: CrimeHolder, position: Int) {
         val crime = crimes[position]
-        holder.bind(crime)
+        holder.bind(crime, onCrimeClicked)
     }
 
     override fun getItemCount() = crimes.size
-
 }
 
 
