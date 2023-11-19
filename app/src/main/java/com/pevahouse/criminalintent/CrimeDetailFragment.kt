@@ -56,25 +56,21 @@ class CrimeFragmentDetail : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.apply {
             crimeTitle.doOnTextChanged { text, _, _, _ ->
                 crimeDetailViewModel.updateCrime { oldCrime ->
                     oldCrime.copy(title = text.toString())
                 }
             }
-
             crimeDate.apply {
                 isEnabled = false
             }
-
             crimeSolved.setOnCheckedChangeListener { _, isChecked ->
                 crimeDetailViewModel.updateCrime { oldCrime ->
                     oldCrime.copy(isSolved = isChecked)
                 }
             }
         }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 crimeDetailViewModel.crime.collect { crime ->
@@ -84,8 +80,10 @@ class CrimeFragmentDetail : Fragment() {
         }
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
         callback.remove()
     }
@@ -95,16 +93,17 @@ class CrimeFragmentDetail : Fragment() {
             if (crimeTitle.text.toString() != crime.title) {
                 crimeTitle.setText(crime.title)
             }
+
             crimeDate.text = crime.date.toString()
             crimeSolved.isChecked = crime.isSolved
         }
     }
 
-    val callback = object : OnBackPressedCallback(true) {
+    private val callback = object : OnBackPressedCallback(true) {
 
         override fun handleOnBackPressed() {
             if (crimeDetailViewModel.crime.value?.title.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please provide a description of the crime", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "A Description of the Incident is Needed", Toast.LENGTH_SHORT).show()
             } else {
                 findNavController().popBackStack()
             }

@@ -36,8 +36,7 @@ class CrimeListFragment : Fragment(){
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
         _binding = FragmentCrimeListBinding.inflate(inflater, container, false)
         binding.crimeRecyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -65,10 +64,8 @@ class CrimeListFragment : Fragment(){
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                crimeListViewModel.crimes.collect { crimes ->
-                    binding.crimeRecyclerView.adapter =
-                        CrimeListAdapter(crimes) { crimeId ->
-                            findNavController().navigate(
+                crimeListViewModel.crimes.collect { crimes -> binding.crimeRecyclerView.adapter =
+                        CrimeListAdapter(crimes) { crimeId -> findNavController().navigate(
                                 CrimeListFragmentDirections.showCrimeDetail(crimeId)
                             )
                         }
